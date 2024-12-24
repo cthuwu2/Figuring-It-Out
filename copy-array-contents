@@ -1,0 +1,41 @@
+// copy array w/ 2 dimensions
+
+#include <iostream>
+
+int originalArray[2][3] = {
+    {1, 2, 3}, 
+    {4, 8, 6},
+};
+
+int copiedArray[2][3];
+
+void copyArray () {
+    
+    // loop through first dimension
+    for (int i1 = 0; i1 < 2; ++i1) { 
+        
+            // loop through second dimension
+            for (int i2 = 0; i2 < 3; ++i2) { 
+                // copy contents
+                copiedArray[i1][i2] = originalArray[i1][i2]; 
+            }
+    } 
+}
+
+int main() { 
+
+    copyArray();
+    
+    // loop through first dimension
+    for (int i1 = 0; i1 < 2; ++i1) { 
+        
+            // loop through second dimension
+            for (int i2 = 0; i2 < 3; ++i2) { 
+                // print contents
+                std::cout<<copiedArray[i1][i2]; 
+            }
+            std::cout<<"\n";
+    } 
+    
+    return 0; 
+} 
