@@ -103,7 +103,7 @@ int daysSinceDate (int targetDate, int targetMonth, int targetYear) {
     
     // create tm with target date, month, and year
     std::tm timeinfo = std::tm();
-    timeinfo.tm_year = (targetYear-1900);   // starts at 1900, adds years since to make accurate
+    timeinfo.tm_year = (targetYear-1900);   // starts at 1900, adds years since
     timeinfo.tm_mon = (targetMonth - 1);      // starts at January, adds months since
     timeinfo.tm_mday = targetDate;     // starts on the 1st
     std::time_t tt = std::mktime (&timeinfo);
