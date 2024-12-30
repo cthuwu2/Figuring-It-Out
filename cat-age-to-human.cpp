@@ -49,6 +49,8 @@ int main()
             }
         }
         
+        } else {
+            targetMonth = stoi(userInput);
         }
     
     std::cout << "Year of birth: ";
