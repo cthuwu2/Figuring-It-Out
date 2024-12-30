@@ -97,7 +97,7 @@ double interpretAllelePair(double allele1,double allele2);
 
 int main()
 {
-    // Providing a seed value
+	// Providing a seed value
 	srand(time(0));
 	
 	// makes array to store genetic code and pointer that points to it (testing)
@@ -105,18 +105,18 @@ int main()
 	double *geneticCodePointer;
 	geneticCodePointer = geneticCode;
 	
-    generateRandomGeneticCode (geneticCodePointer);
+    	generateRandomGeneticCode (geneticCodePointer);
     
-    interpretGeneticCode(geneticCodePointer);
+    	interpretGeneticCode(geneticCodePointer);
 
-    // prints geneticCode
-    for (int loci = 0; loci < 41; loci++) {
+    	// prints geneticCode
+    	for (int loci = 0; loci < 41; loci++) {
         
-        std::cout<< loci + 1 <<": " << geneticCode[loci] << "," << geneticCode[loci + 41] << " = " << geneticCode[loci + 82] << "\n";
+        	std::cout<< loci + 1 <<": " << geneticCode[loci] << "," << geneticCode[loci + 41] << " = " << geneticCode[loci + 82] << "\n";
         
-    }
+    	}
     
-    return 0;
+    	return 0;
 }
 
 void generateRandomGeneticCode (double *targetArray) {
