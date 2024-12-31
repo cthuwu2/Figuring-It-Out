@@ -20,7 +20,7 @@ double allelesIndex[41][5] = {
         {1, 2},
     // 8, tabby pattern
         {1, 2},
-    // 9, mackeral spotting
+    // 9, mackerel spotting
         {1.1, 2},
     // 10, bengal mod
         {1, 2},
@@ -95,7 +95,7 @@ void copyGeneticCode(double *targetCode, double *copyCode);
 void interpretGeneticCode(double *targetCode);
 double interpretAllelePair(double allele1,double allele2);
 
-void createPhysicalCode();
+void createPhysicalCode (double *targetCode);
 
 
 // genetic code array is 125 long. first 41 are the first alleles in pair, 42 - 82 are the second members. 82 - 123 indicate the
@@ -125,6 +125,8 @@ int main()
         std::cout<< loci + 1 <<": " << geneticCode[loci] << "," << geneticCode[loci + 41] << " = " << geneticCode[loci + 82] << "\n";
         
     }
+    
+    createPhysicalCode (geneticCodePointer);
     
     	return 0;
 }
@@ -214,4 +216,78 @@ double interpretAllelePair(double allele1,double allele2) {
         return dominantAllele;
     }
     
+}
+
+
+
+
+
+
+
+// Physical Code:
+// Coat Base Color
+// need to implement amber
+// Silver/Gold Series Color
+// Banding Opacity
+// Tabby Pattern
+// Colorpoint
+// White Spotting
+// Red Overlay
+// Silver/Gold Overlays
+// Base Eye Color
+// Eye Color Intensity
+// Eye Color Tint
+// Heterochromia
+// Strabismus
+
+
+void createPhysicalCode (double *targetCode) {
+    
+    int physicalCode[13];
+    
+    // coat base color
+    
+    // checks for phaeomelanin (adds 10 if so), adds 1 for dilution and 1 if dilution and dilute mod are present
+    physicalCode[0] = 1 + ((*(targetCode + 124) == 2) * 9) + (*(targetCode + 83) == 1) + ((*(targetCode + 83) == 1)*(*(targetCode + 84) == 1));
+    
+    // checks if not phaeomelanin, then adds for browning mod
+    physicalCode[0] += (physicalCode[0] < 10)*((*(targetCode + 82)-1)*3);
+    
+    
+    // banding opacity
+    
+    // starts at 1, adds 2 more if banding is agouti
+    physicalCode[2] = 1 + ((*(targetCode + 88) == 2)*2);
+    
+    // adds 1 more if cat is phaeomelanin and solid (preventing solid orange cats)
+    physicalCode[2] += (physicalCode[2] < 3)*(*(targetCode + 124) == 2);
+    
+    
+    // tabby pattern
+    
+    // checks if pattern is classic or mackerel
+    physicalCode[3] = 1 + (*(targetCode + 89) == 2);
+    
+    // chekcs for ticked and ticked modifier
+    if (*(targetCode + 92) == 2) {
+        
+        // adds 8 for ticked coat (either classic or mackerel)
+        physicalCode[3] += 8;
+        
+        physicalCode[3] += (*(targetCode + 93) == 1)*(11-physicalCode[3]);
+        
+    } else { 
+        
+        // if not ticked:
+        //checks for broken or spotted mackerel
+        physicalCode[3] += (physicalCode[3] == 2)*((*(targetCode + 90) < 2) + (*(targetCode + 90) < 1.5));
+    
+        // checks for bengal modifier
+        physicalCode[3] += ((*(targetCode + 91) == 2)*4);
+    }
+    
+    
+    std::cout<<"\nfur color: "<<physicalCode[0];
+    std::cout<<"\nbanding opacity: "<<physicalCode[2];
+    std::cout<<"\ntabby pattern: "<<physicalCode[3];
 }
