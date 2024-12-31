@@ -95,26 +95,36 @@ void copyGeneticCode(double *targetCode, double *copyCode);
 void interpretGeneticCode(double *targetCode);
 double interpretAllelePair(double allele1,double allele2);
 
+void createPhysicalCode();
+
+
+// genetic code array is 125 long. first 41 are the first alleles in pair, 42 - 82 are the second members. 82 - 123 indicate the
+// id of the dominant / codominance expression for each loci. 124 indicates XX, XY, or XXY chromosomes (1, 2, and 3 respectively),
+// while 125 indicates eumelanin, phaeomelanin, or both (also 1, 2, and 3 respectively)
+
 int main()
 {
 	// Providing a seed value
 	srand(time(0));
 	
 	// makes array to store genetic code and pointer that points to it (testing)
-	double geneticCode[123];
+	double geneticCode[125];
 	double *geneticCodePointer;
 	geneticCodePointer = geneticCode;
 	
-    	generateRandomGeneticCode (geneticCodePointer);
+    generateRandomGeneticCode (geneticCodePointer);
     
-    	interpretGeneticCode(geneticCodePointer);
+    std::cout << "Gender: " << geneticCode[123] << "\n";
+    std::cout << "Melanin: " << geneticCode[124] <<"\n";
+    
+    interpretGeneticCode(geneticCodePointer);
 
-    	// prints geneticCode
-    	for (int loci = 0; loci < 41; loci++) {
+    // prints geneticCode
+    for (int loci = 0; loci < 41; loci++) {
         
-        	std::cout<< loci + 1 <<": " << geneticCode[loci] << "," << geneticCode[loci + 41] << " = " << geneticCode[loci + 82] << "\n";
+        std::cout<< loci + 1 <<": " << geneticCode[loci] << "," << geneticCode[loci + 41] << " = " << geneticCode[loci + 82] << "\n";
         
-    	}
+    }
     
     	return 0;
 }
@@ -122,6 +132,18 @@ int main()
 void generateRandomGeneticCode (double *targetArray) {
     
     // *targetArray being a pointer to the array to store the generated genetic code in
+    
+    // start by assigning chromosomes. Picks 1 or 2 at random, and then has a 1 in 250
+    // chance of adding 1 to it (in the case of a female making it male and in the case of a male xxy)
+    *(targetArray + 123) = (rand() %2) + 1 + (((rand() %250) - 248) == 1);
+    
+    // assigns fur color, picking randomly between eumelanin or phaeomelanin
+    *(targetArray + 124) = (rand() %2) + 1;
+    
+    // if chromosomes are xx or xxy, 1/3 chance of making eumelanin AND phaeomelanin
+    if ((*(targetArray + 123) == 1 || *(targetArray + 123) == 3) && ((rand() %3) - 1 == 1)) {
+        *(targetArray + 124) = 3;
+    }
     
     // loop that goes through every loci
     for (int loci = 0; loci < 41; loci++) {
@@ -154,7 +176,7 @@ void copyGeneticCode(double *targetCode, double *copyCode) {
     
     // with targetCode being the array to reference and copyCode being the array to be overwritten
     
-    for (int i = 0; i < 123; i++) {
+    for (int i = 0; i < 125; i++) {
         *(targetCode + i) = *(copyCode + i);
     }
 }
