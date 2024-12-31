@@ -287,7 +287,17 @@ void createPhysicalCode (double *targetCode) {
     }
     
     
+    // colorpoint
+    
+    // checks if colorpoint, type of colorpoint
+    physicalCode[4] = ((*(targetCode + 86) > 2) && (*(targetCode + 86) < 5))*(1 + (*(targetCode + 86) - 3)*2);
+    
+    
+    // white spotting
+    
+    
     std::cout<<"\nfur color: "<<physicalCode[0];
     std::cout<<"\nbanding opacity: "<<physicalCode[2];
     std::cout<<"\ntabby pattern: "<<physicalCode[3];
+    std::cout<<"\ncolorpoint: "<<physicalCode[4];
 }
